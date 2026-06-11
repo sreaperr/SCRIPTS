@@ -37,6 +37,29 @@ chmod +x update.sh
 ./update.sh
 ```
 
+### `sshconfig.sh`
+
+Script para añadir hosts al archivo `~/.ssh/config`.
+
+- Crea el archivo `~/.ssh/config` si no existe.
+- Pide nombre de host, IP, usuario y ruta de la clave privada.
+- Añade un bloque `Host` con esos datos al final del archivo.
+
+**Uso:**
+
+```bash
+chmod +x sshconfig.sh
+./sshconfig.sh
+```
+
+### `sshfile.sh` (en desarrollo)
+
+Script para enviar/recibir archivos o directorios a una máquina remota vía `scp`. Requiere tener configurado `~/.ssh/config` (ver `sshconfig.sh`).
+
+- `MENU`: pide si se quiere enviar o recibir, el host remoto y el puerto SSH.
+- `SEND`: busca con `find` el archivo/directorio a enviar (informativo), pide la ruta absoluta local y el destino remoto, y ejecuta `scp` (con `-r` si es un directorio).
+- Pendiente: función `RECEIVE` y lanzamiento del script (menú que invoque `SEND`/`RECEIVE`).
+
 ## Estructura
 
 Cada script incluye en su cabecera un comentario describiendo su propósito. A medida que se añadan nuevos scripts, se documentarán en este README.
