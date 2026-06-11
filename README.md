@@ -22,6 +22,21 @@ cd SCRIPTS
 chmod +x backup.sh
 ./backup.sh
 ```
+
+### `update.sh`
+
+Script de actualización del sistema (Arch Linux). Solo ejecución manual de momento.
+
+- Actualiza los paquetes oficiales con `pacman -Syu` y limpia la caché con `pacman -Sc`.
+- Actualiza los paquetes AUR con `paru` y limpia su caché.
+
+**Uso:**
+
+```bash
+chmod +x update.sh
+./update.sh
+```
+
 ## Estructura
 
 Cada script incluye en su cabecera un comentario describiendo su propósito. A medida que se añadan nuevos scripts, se documentarán en este README.
