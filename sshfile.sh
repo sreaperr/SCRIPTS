@@ -60,3 +60,38 @@ SEND(){
     fi
 }
 
+RECEIVE(){
+    read -p "Nombre del archivo o directorio que quieres recibir: " RECEIVE_OP
+        FIND=$(ssh -p "$OPTION3" "$OPTION2" "find / -name '$RECEIVE_OP' 2>/dev/null")
+        #-- COMPROBAR QUE FIND MUESTRA 0,1 O MÁS ARCHIVOS
+        if [[ -z "$FIND" ]]; then
+            NUM=0
+        else 
+            NUM=$(echo "$FIND" | wc -l)
+        fi
+        #-- RESPUESTA DEPENDIENDO DE CUANTOS DIRECTORIOS MUESTRE
+        if [[ $NUM -eq 0 ]]; then 
+            echo "No se encontraron archivos con ese nombre." && exit 1 
+        elif [[ $NUM -gt 1 ]]; then 
+            echo "Existe más de un archivo o directorio con ese nombre." 
+            echo "$FIND"
+        elif [[ $NUM -eq 1 ]]; then 
+            echo "Existe una coincidencia." 
+            echo "$FIND"
+        fi
+    read -p "Escribe aquí el archivo o directorio a recibir(poner ruta absoluta): " RUTA
+    read -p "Escribe aqui el directorio de la máquina local al que quieres que se envie: " DESTINO
+    echo "*** REALIZANDO MOVIMIENTO DE ARCHIVOS/DIRECTORIOS ***"
+    scp -P "$OPTION3" -r "$OPTION2:$RUTA" "$DESTINO"
+}
+
+#-- EJECUCIÓN
+MENU
+if [[ "${OPTION1,,}" == "e" || "${OPTION1,,}" == "enviar" ]]; then
+    SEND
+elif [[ "${OPTION1,,}" == "r" || "${OPTION1,,}" == "recibir" ]]; then
+    RECEIVE
+else 
+    echo "La opción que has usado no es válida, vuelve a ejecutar el script." && exit 1
+fi
+echo "*** TRASPASO SSH COMPLETADO ***"
